@@ -1,0 +1,36 @@
+﻿@page "/simplegame"
+@using SOSGame.GUI.Data;
+@using SOSGame.GUI.Data.Objects;
+
+<PageTitle>Simple Game</PageTitle>
+
+<h1>Simple Game</h1>
+
+@code 
+{
+    GameBoard gameboard = new GameBoard(3);
+}
+<div class="board">
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="column">
+            @for (int j = 0; j < 3; j++)
+            {
+                int x = i;
+                int y = j;
+                <div class="gametile
+                         @gameboard.Tiles[i,j]" 
+                     style="opacity: 0.6"></div>
+            }
+        </div>
+    }
+</div>
+
+<input type="radio" id="player1" name="Player 1"/>
+<label for="player1">Human</label>
+
+<input type="checkbox" id="checkbox1" name="Player 1" />
+<label for="checkbox1">First Checkbox</label>
+
+<input type="checkbox" id="checkbox2" name="Player 1" />
+<label for="checkbox2">Second Checkbox</label>
