@@ -1,7 +1,7 @@
 ﻿using SOSGame.GUI.Data.Factories;
 using SOSGame.GUI.Data.Objects;
 using SOSGame.GUI.Pages;
-using SOSGame.Logic;
+using SOSGame.GUI.Logic;
 
 namespace SOSGame.GUI.Tests.Pages
 {

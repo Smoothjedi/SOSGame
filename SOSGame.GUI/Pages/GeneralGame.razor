@@ -40,7 +40,8 @@
                 
                 <div class="gametile
                          @GameBoard.Tiles[i,j]" @onclick="@(() => TileClicked(x,y))">
-                    @if (GameBoard.Tiles[x, y].FirstPlayerOwned.HasValue && GameBoard.Tiles[x, y].FirstPlayerOwned.Value)
+                    @if (GameBoard.Tiles[x, y].FirstPlayerOwned.HasValue 
+                        && GameBoard.Tiles[x, y].FirstPlayerOwned.Value)
                     {
                         <span class="blue"><strong>@base.GameBoard.Tiles[x,y].Letter</strong></span>
                     }

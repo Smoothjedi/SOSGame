@@ -22,7 +22,7 @@
             Assert.False(baseGameTest.GetFirstPlayer());
             baseGameTest.SetLetter("O", 2);
             baseGameTest.TileClicked(0, 1);
-            Assert.False(baseGameTest.GetFirstPlayer());
+            Assert.True(baseGameTest.GetFirstPlayer());
             Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
         }
 
