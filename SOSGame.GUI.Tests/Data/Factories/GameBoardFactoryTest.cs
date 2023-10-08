@@ -1,5 +1,4 @@
 using SOSGame.GUI.Data.Factories;
-using SOSGame.GUI.Data.Objects;
 
 namespace SOSGame.GUI.Tests.Data.Factories
 {

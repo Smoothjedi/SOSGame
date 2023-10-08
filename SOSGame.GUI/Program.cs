@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using SOSGame.GUI.Data;
 using SOSGame.GUI.Data.Factories;
 using SOSGame.Logic;
 

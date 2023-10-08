@@ -1,5 +1,4 @@
 ﻿using SOSGame.GUI.Data.Objects;
-using System.Drawing;
 
 namespace SOSGame.GUI.Data.Factories
 {

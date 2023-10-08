@@ -1,11 +1,4 @@
-﻿using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SOSGame.GUI.Tests.Pages
+﻿namespace SOSGame.GUI.Tests.Pages
 {
     public partial class BaseGameTests
     {

@@ -1,5 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
-
 namespace SOSGame.Logic.Tests
 {
     public class BaseGameLogicTests
