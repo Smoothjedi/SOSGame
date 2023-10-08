@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using SOSGame.GUI.Data;
+using SOSGame.GUI.Data.Factories;
+using SOSGame.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+SetupFactories(builder);
+
+
 
 var app = builder.Build();
 
@@ -29,3 +34,8 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
+void SetupFactories(WebApplicationBuilder builder)
+{
+    builder.Services.AddSingleton<IGameBoardFactory, GameBoardFactory>();
+    builder.Services.AddSingleton<IBaseGameLogic,  BaseGameLogic>();
+}

@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOSGame.GUI", "SOSGame.GUI\SOSGame.GUI.csproj", "{D4E79402-3C82-4C6D-9E6D-2D70AB59654B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOSGame.GUI", "SOSGame.GUI\SOSGame.GUI.csproj", "{D4E79402-3C82-4C6D-9E6D-2D70AB59654B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOSGame.GUI.Tests", "SOSGame.GUI.Tests\SOSGame.GUI.Tests.csproj", "{3B25D2E5-150F-4D4A-B22C-E34A8FEB10ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOSGame.GUI.Tests", "SOSGame.GUI.Tests\SOSGame.GUI.Tests.csproj", "{3B25D2E5-150F-4D4A-B22C-E34A8FEB10ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOSGame.Logic", "SOSGame.Logic\SOSGame.Logic.csproj", "{C1FBD6B9-5DB0-4BDE-9546-5FF01DFD1000}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOSGame.Logic.Tests", "SOSGame.Logic.Tests\SOSGame.Logic.Tests.csproj", "{CBE88476-D37D-4A68-9792-D24D2967C9B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{3B25D2E5-150F-4D4A-B22C-E34A8FEB10ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B25D2E5-150F-4D4A-B22C-E34A8FEB10ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B25D2E5-150F-4D4A-B22C-E34A8FEB10ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1FBD6B9-5DB0-4BDE-9546-5FF01DFD1000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1FBD6B9-5DB0-4BDE-9546-5FF01DFD1000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1FBD6B9-5DB0-4BDE-9546-5FF01DFD1000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1FBD6B9-5DB0-4BDE-9546-5FF01DFD1000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE88476-D37D-4A68-9792-D24D2967C9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE88476-D37D-4A68-9792-D24D2967C9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE88476-D37D-4A68-9792-D24D2967C9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE88476-D37D-4A68-9792-D24D2967C9B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

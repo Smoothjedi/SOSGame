@@ -1,12 +1,12 @@
-﻿@page "/simplegame"
+﻿@page "/generalgame"
 @using SOSGame.GUI.Data;
 @using SOSGame.GUI.Data.Factories;
 @using SOSGame.GUI.Data.Objects;
 @inherits BaseGame
 
-<PageTitle>Simple Game</PageTitle>
+<PageTitle>General Game</PageTitle>
 
-<h1>Simple Game</h1>
+<h1>General Game</h1>
 
 <h2> Current Player: @(FirstPlayer ? "First Player" : "Second Player")</h2>
 @code 
@@ -40,8 +40,7 @@
                 
                 <div class="gametile
                          @GameBoard.Tiles[i,j]" @onclick="@(() => TileClicked(x,y))">
-                    @if (GameBoard.Tiles[x, y].FirstPlayerOwned.HasValue 
-                        && GameBoard.Tiles[x, y].FirstPlayerOwned.Value)
+                    @if (GameBoard.Tiles[x, y].FirstPlayerOwned.HasValue && GameBoard.Tiles[x, y].FirstPlayerOwned.Value)
                     {
                         <span class="blue"><strong>@base.GameBoard.Tiles[x,y].Letter</strong></span>
                     }
@@ -58,7 +57,7 @@
 @* <input type="radio" id="player1" name="Player 1"/>
 <label for="player1">Human</label> *@
 
-<h4>First Player Letter Selection (<span class="blue">Blue</span>):</h4>
+<h4>First Player Letter Selection:</h4>
 <div>
     <EditForm Model="base.GameBoard">
         <InputRadioGroup @bind-Value="GameBoard.FirstPlayerLetter">
@@ -72,12 +71,13 @@
                 {
                     <InputRadio Value="letter" /> @letter <br />
                 }
+
             }
         </InputRadioGroup>
     </EditForm>
 </div>
 
-<h4>Second Player Letter Selection: (<span class="red">Red</span>)</h4>
+<h4>Second Player Letter Selection:</h4>
 <div>
     <EditForm Model="base.GameBoard">
         <InputRadioGroup @bind-Value="GameBoard.SecondPlayerLetter">
