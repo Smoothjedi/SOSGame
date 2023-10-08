@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SOSGame.GUI.Data.Factories;
 using SOSGame.GUI.Data.Objects;
-using SOSGame.Logic;
+using SOSGame.GUI.Logic;
 
 namespace SOSGame.GUI.Pages
 {
@@ -20,20 +20,9 @@ namespace SOSGame.GUI.Pages
 
         protected void TileClicked(int x, int y)
         {
-            var selectedGameTile = GameBoard.Tiles[x, y];
-            if (!selectedGameTile.FirstPlayerOwned.HasValue)
-            {
-                if (FirstPlayer)
-                {
-                    selectedGameTile.Letter = GameBoard.FirstPlayerLetter;
-                }
-                else
-                {
-                    selectedGameTile.Letter = GameBoard.SecondPlayerLetter;
-                }
-                selectedGameTile.FirstPlayerOwned = FirstPlayer;
-                FirstPlayer = BaseGameLogic.ChangeTurn(FirstPlayer);
-            }
+            BaseGameLogic.UpdateGameBoardAfterClick(x, y, GameBoard, FirstPlayer);
+            FirstPlayer = BaseGameLogic.ChangeTurn(FirstPlayer);
+
         }
 
         protected override void OnInitialized()

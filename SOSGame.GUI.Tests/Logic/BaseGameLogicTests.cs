@@ -1,4 +1,6 @@
-namespace SOSGame.Logic.Tests
+using SOSGame.GUI.Logic;
+
+namespace SOSGame.GUI.Tests.Logic
 {
     public class BaseGameLogicTests
     {

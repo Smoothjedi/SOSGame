@@ -1,5 +1,5 @@
 using SOSGame.GUI.Data.Factories;
-using SOSGame.Logic;
+using SOSGame.GUI.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
