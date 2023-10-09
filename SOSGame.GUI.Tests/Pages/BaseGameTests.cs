@@ -15,7 +15,7 @@ namespace SOSGame.GUI.Tests.Pages
             gblMock.Setup(m => m.UpdateGameBoardAfterClick(
                 It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(true);
             gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
-            var baseGameTest = new BaseGameTest(new Mock<GameBoardFactory>().Object, gblMock.Object);
+            var baseGameTest = new BaseGameTest(new Mock<IGameBoardFactory>().Object, gblMock.Object);
 
             baseGameTest.TileClicked(0, 1);
 
@@ -29,7 +29,7 @@ namespace SOSGame.GUI.Tests.Pages
             gblMock.Setup(m => m.UpdateGameBoardAfterClick(
                 It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(false);
             gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
-            var baseGameTest = new BaseGameTest(new Mock<GameBoardFactory>().Object, gblMock.Object);
+            var baseGameTest = new BaseGameTest(new Mock<IGameBoardFactory>().Object, gblMock.Object);
 
             baseGameTest.TileClicked(0, 1);
 
