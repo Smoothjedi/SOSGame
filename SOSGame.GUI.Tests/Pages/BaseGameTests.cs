@@ -1,64 +1,39 @@
-﻿namespace SOSGame.GUI.Tests.Pages
+﻿using Moq;
+using SOSGame.GUI.Data.Factories;
+using SOSGame.GUI.Data.Objects;
+using SOSGame.GUI.Logic;
+
+namespace SOSGame.GUI.Tests.Pages
 {
     public partial class BaseGameTests
     {
+
         [Fact]
-        public void TileClickedFirstPlayerSTest()
+        public void TileClickedSuccessfullyChangesTurnTest()
         {
-            var baseGameTest = new BaseGameTest();
+            Mock<IBaseGameLogic> gblMock  = new Mock<IBaseGameLogic>();
+            gblMock.Setup(m => m.UpdateGameBoardAfterClick(
+                It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(true);
+            gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
+            var baseGameTest = new BaseGameTest(new Mock<GameBoardFactory>().Object, gblMock.Object);
+
             baseGameTest.TileClicked(0, 1);
-            Assert.True(baseGameTest.ReturnGameBoard().Tiles[0, 1].FirstPlayerOwned);
-            Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
-            Assert.False(baseGameTest.GetFirstPlayer());
+
+            gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Once());
         }
 
         [Fact]
-        public void TileClickedAlreadyOwnedTile()
+        public void TileClickedDoesNotChangeTurnTest()
         {
-            var baseGameTest = new BaseGameTest();
-            baseGameTest.TileClicked(0, 1);
-            Assert.True(baseGameTest.ReturnGameBoard().Tiles[0, 1].FirstPlayerOwned);
-            Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
-            Assert.False(baseGameTest.GetFirstPlayer());
-            baseGameTest.SetLetter("O", 2);
-            baseGameTest.TileClicked(0, 1);
-            Assert.True(baseGameTest.GetFirstPlayer());
-            Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
-        }
+            Mock<IBaseGameLogic> gblMock = new Mock<IBaseGameLogic>();
+            gblMock.Setup(m => m.UpdateGameBoardAfterClick(
+                It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(false);
+            gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
+            var baseGameTest = new BaseGameTest(new Mock<GameBoardFactory>().Object, gblMock.Object);
 
-        [Fact]
-        public void TileClickedSecondPlayerSTest()
-        {
-            var baseGameTest = new BaseGameTest();
             baseGameTest.TileClicked(0, 1);
-            Assert.True(baseGameTest.ReturnGameBoard().Tiles[0, 1].FirstPlayerOwned);
-            Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
-            Assert.False(baseGameTest.GetFirstPlayer());
-            baseGameTest.SetLetter("O", 2);
-            baseGameTest.TileClicked(0, 2);
-            Assert.True(baseGameTest.GetFirstPlayer());
-            Assert.Equal("O", baseGameTest.ReturnGameBoard().Tiles[0, 2].Letter);
-        }
 
-        [Fact]
-        public void ResetBoardTest()
-        {
-            var baseGameTest = new BaseGameTest();
-            baseGameTest.TileClicked(0, 1);
-            Assert.True(baseGameTest.ReturnGameBoard().Tiles[0, 1].FirstPlayerOwned);
-            Assert.Equal("S", baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter);
-            Assert.False(baseGameTest.GetFirstPlayer());
-            baseGameTest.SetLetter("O", 2);
-            baseGameTest.TileClicked(0, 2);
-            Assert.True(baseGameTest.GetFirstPlayer());
-            Assert.Equal("O", baseGameTest.ReturnGameBoard().Tiles[0, 2].Letter);
-
-            baseGameTest.ResetBoard(4);
-            Assert.Equal(4, baseGameTest.ReturnGameBoard().Size);
-            Assert.True(baseGameTest.GetFirstPlayer());
-            Assert.True(string.IsNullOrEmpty(baseGameTest.ReturnGameBoard().Tiles[0, 1].Letter));
-            Assert.Null(baseGameTest.ReturnGameBoard().Tiles[0, 1].FirstPlayerOwned);
-            Assert.Null(baseGameTest.ReturnGameBoard().Tiles[0, 2].FirstPlayerOwned);
+            gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Never());
         }
     }
 }

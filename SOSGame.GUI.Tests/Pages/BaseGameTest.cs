@@ -10,10 +10,10 @@ namespace SOSGame.GUI.Tests.Pages
         //Mock 
         public class BaseGameTest : BaseGame
         {
-            public BaseGameTest() 
+            public BaseGameTest(IGameBoardFactory factory, IBaseGameLogic logic) 
             {
-                base.GameBoardFactory = new GameBoardFactory();
-                base.BaseGameLogic = new BaseGameLogic();
+                base.GameBoardFactory = factory;
+                base.BaseGameLogic = logic;
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
             }
             public void TileClicked(int x, int y)

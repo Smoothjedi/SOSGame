@@ -4,7 +4,7 @@ namespace SOSGame.GUI.Logic
 {
     public class BaseGameLogic : IBaseGameLogic
     {
-        public GameBoard UpdateGameBoardAfterClick(int x, int y, GameBoard board, bool firstPlayer)
+        public bool UpdateGameBoardAfterClick(int x, int y, GameBoard board, bool firstPlayer)
         {
             var selectedGameTile = board.Tiles[x, y];
             if (!selectedGameTile.FirstPlayerOwned.HasValue)
@@ -18,8 +18,9 @@ namespace SOSGame.GUI.Logic
                     selectedGameTile.Letter = board.SecondPlayerLetter;
                 }
                 selectedGameTile.FirstPlayerOwned = firstPlayer;
+                return true;
             }
-            return board;
+            return false;
         }
 
         public bool ChangeTurn(bool firstPlayer)

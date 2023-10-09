@@ -20,9 +20,10 @@ namespace SOSGame.GUI.Pages
 
         protected void TileClicked(int x, int y)
         {
-            BaseGameLogic.UpdateGameBoardAfterClick(x, y, GameBoard, FirstPlayer);
-            FirstPlayer = BaseGameLogic.ChangeTurn(FirstPlayer);
-
+            if (BaseGameLogic.UpdateGameBoardAfterClick(x, y, GameBoard, FirstPlayer))
+            {
+                FirstPlayer = BaseGameLogic.ChangeTurn(FirstPlayer);
+            }
         }
 
         protected override void OnInitialized()
