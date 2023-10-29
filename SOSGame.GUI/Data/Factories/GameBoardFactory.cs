@@ -22,11 +22,12 @@ namespace SOSGame.GUI.Data.Factories
             {
                 for (int j = 0; j < size; j++)
                 {
-                    tiles[i, j] = new GameTile();
+                    tiles[i, j] = new GameTile() { X = i, Y = j };
                 }
             }
             gameboard.Tiles = tiles;
             gameboard.Size = size;
+            gameboard.Dimensions = size * 60 + ((size + 1) * 2);
 
             return gameboard;
         }

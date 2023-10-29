@@ -4,7 +4,8 @@ namespace SOSGame.GUI.Data.Objects
 {
     public class GameTile
     {
-        public bool? FirstPlayerOwned { get; set; }
+        public int X { get; set; } 
+        public int Y { get; set; }
 
         public string? Letter { get; set; }
     }

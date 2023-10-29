@@ -5,85 +5,249 @@ using static SOSGame.GUI.Tests.Pages.BaseGameTests;
 
 namespace SOSGame.GUI.Tests.Logic
 {
-    public class BaseGameLogicTests
+    public class BaseGameLogicTestClassTests
     {
         [Fact]
         public void ChangeTurnTrueToFalseTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
-            Assert.False(baseGameLogic.ChangeTurn(true));
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
+            Assert.False(BaseGameLogicTestClass.ChangeTurn(true));
         }
+
         [Fact]
         public void ChangeTurnFalseToTrueTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
-            Assert.True(baseGameLogic.ChangeTurn(false));
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
+            Assert.True(BaseGameLogicTestClass.ChangeTurn(false));
         }
-
 
         [Fact]
         public void UpdateGameBoardAfterClickFirstPlayerSTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
             IGameBoardFactory gameBoardFactory = new GameBoardFactory();
             var board = gameBoardFactory.CreateDefaultGameBoard();
 
-            Assert.True(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, true));
-            Assert.True(board.Tiles[0, 1].FirstPlayerOwned);
+            Assert.True(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, true));
             Assert.Equal("S", board.Tiles[0, 1].Letter);
         }
 
         [Fact]
         public void UpdateGameBoardAfterClickSecondPlayerSTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
             IGameBoardFactory gameBoardFactory = new GameBoardFactory();
             var board = gameBoardFactory.CreateDefaultGameBoard();
 
-            Assert.True(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, false));
-            Assert.False(board.Tiles[0, 1].FirstPlayerOwned);
+            Assert.True(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, false));
             Assert.Equal("S", board.Tiles[0, 1].Letter);
         }
 
         [Fact]
         public void UpdateGameBoardAfterClickFirstPlayerOTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
             IGameBoardFactory gameBoardFactory = new GameBoardFactory();
             var board = gameBoardFactory.CreateDefaultGameBoard();
             board.FirstPlayerLetter = "O";
 
-            Assert.True(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, true));
-            Assert.True(board.Tiles[0, 1].FirstPlayerOwned);
+            Assert.True(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, true));
             Assert.Equal("O", board.Tiles[0, 1].Letter);
         }
 
         [Fact]
         public void UpdateGameBoardAfterClickSecondPlayerOTest()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
             IGameBoardFactory gameBoardFactory = new GameBoardFactory();
             var board = gameBoardFactory.CreateDefaultGameBoard();
             board.SecondPlayerLetter = "O";
 
-            Assert.True(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, false));
-            Assert.False(board.Tiles[0, 1].FirstPlayerOwned);
+            Assert.True(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, false));
             Assert.Equal("O", board.Tiles[0, 1].Letter);
         }
 
         [Fact]
         public void UpdateGameBoardAfterClickAlreadyOwnedTile()
         {
-            IBaseGameLogic baseGameLogic = new BaseGameLogic();
+            IGameLogic BaseGameLogicTestClass = new BaseGameLogicTestClass();
             IGameBoardFactory gameBoardFactory = new GameBoardFactory();
             var board = gameBoardFactory.CreateDefaultGameBoard();
             board.SecondPlayerLetter = "O";
 
-            Assert.True(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, true));
-            Assert.False(baseGameLogic.UpdateGameBoardAfterClick(0, 1, board, false));
+            Assert.True(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, true));
+            Assert.False(BaseGameLogicTestClass.UpdateGameBoardAfterClick(0, 1, board, false));
 
             Assert.Equal("S", board.Tiles[0, 1].Letter);
-            Assert.True(board.Tiles[0, 1].FirstPlayerOwned);
+        }
+
+        [Fact]
+        public void CheckSNorthSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 0].Letter = "S";
+            board.Tiles[0, 1].Letter = "O";
+            board.Tiles[0, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 2, board);
+            Assert.True(testClass.CheckForScore(0, 2, board).Count == 1);            
+        }
+
+        [Fact]
+        public void CheckSSouthSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 0].Letter = "S";
+            board.Tiles[0, 1].Letter = "O";
+            board.Tiles[0, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 0, board);
+            Assert.True(testClass.CheckForScore(0, 0, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckSEastSOS() 
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 1].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 1].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 1, board);
+            Assert.True(testClass.CheckForScore(0, 1, board).Count == 1);
+
+        }
+        [Fact]      
+        public void CheckSWestSOS() 
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 2].Letter = "S";
+            board.Tiles[1, 2].Letter = "O";
+            board.Tiles[2, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 2, board);
+            Assert.True(testClass.CheckForScore(0, 2, board).Count == 1);
+
+        }
+
+        [Fact]
+        public void CheckSNorthWestSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(2, 2, board);
+            Assert.True(testClass.CheckForScore(2, 2, board).Count == 1);
+        }
+
+        [Fact]
+        public void CheckSSouthWestSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[2, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[0, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(2, 0, board);
+            Assert.True(testClass.CheckForScore(2, 0, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckSNorthEastSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 2].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 0].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 2, board);
+            Assert.True(testClass.CheckForScore(0, 2, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckSSouthEastSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(0, 0, board);
+            Assert.True(testClass.CheckForScore(0, 0, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckONorthEastSouthWestSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(1, 1, board);
+            Assert.True(testClass.CheckForScore(1, 1, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckONorthSouthSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[1, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[1, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(1, 1, board);
+            Assert.True(testClass.CheckForScore(1, 1, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckNorthEastSouthWestSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[2, 0].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[0, 2].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(1, 1, board);
+            Assert.True(testClass.CheckForScore(1, 1, board).Count == 1);
+
+        }
+        [Fact]
+        public void CheckOWestEastSOS()
+        {
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+            board.Tiles[0, 1].Letter = "S";
+            board.Tiles[1, 1].Letter = "O";
+            board.Tiles[2, 1].Letter = "S";
+
+            var testClass = new BaseGameLogicTestClass();
+            var result = testClass.CheckForScore(1, 1, board);
+            Assert.True(testClass.CheckForScore(1, 1, board).Count == 1);
         }
     }
 }

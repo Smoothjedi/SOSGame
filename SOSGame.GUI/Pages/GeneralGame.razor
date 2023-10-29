@@ -1,7 +1,10 @@
 ﻿@page "/generalgame"
+@page "/generalgame/{size}"
 @using SOSGame.GUI.Data;
 @using SOSGame.GUI.Data.Factories;
 @using SOSGame.GUI.Data.Objects;
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
 @inherits BaseGame
 
 <PageTitle>General Game</PageTitle>
@@ -11,11 +14,18 @@
 <h2> Current Player: @(FirstPlayer ? "First Player" : "Second Player")</h2>
 @code 
 {
+    [Parameter]
+    public string size { get; set; }
+
+    protected override void StartNewGame(string boardSize)
+    {
+        navigationManager.NavigateTo($"/generalgame/{boardSize}", true);
+    }
 }
 
 <div>
     <InputSelect Value="@GameBoard.Size"
-                 ValueChanged="@((int value) => ResetBoard(value))"
+                 ValueChanged="@((int value) => StartNewGame(value.ToString()))"
                  ValueExpression="(() => GameBoard.Size)">
         <option value=3>3</option>
         <option value=4>4</option>
@@ -28,37 +38,11 @@
     </InputSelect>
 </div>
 
-
-<div class="board">
-    @for (int i = 0; i < GameBoard.Size; i++)
-    {
-        <div class="column">
-            @for (int j = 0; j < GameBoard.Size; j++)
-            {
-                int x = i;
-                int y = j;
-                
-                <div class="gametile
-                         @GameBoard.Tiles[i,j]" @onclick="@(() => TileClicked(x,y))">
-                    @if (GameBoard.Tiles[x, y].FirstPlayerOwned.HasValue 
-                        && GameBoard.Tiles[x, y].FirstPlayerOwned.Value)
-                    {
-                        <span class="blue"><strong>@base.GameBoard.Tiles[x,y].Letter</strong></span>
-                    }
-                    else
-                    {
-                        <span class="red"><strong>@base.GameBoard.Tiles[x,y].Letter</strong></span>
-                    }
-                </div>
-            }
-        </div>
-    }
+<div @ref="divCanvas" @onclick="CanvasClicked">
+    <BECanvas Width="@GameBoard.Dimensions" Height="@GameBoard.Dimensions" @ref="_canvasReference"></BECanvas>
 </div>
 
-@* <input type="radio" id="player1" name="Player 1"/>
-<label for="player1">Human</label> *@
-
-<h4>First Player Letter Selection:</h4>
+<h4>First Player Letter Selection (<span class="blue">Blue</span>):</h4>
 <div>
     <EditForm Model="base.GameBoard">
         <InputRadioGroup @bind-Value="GameBoard.FirstPlayerLetter">
@@ -78,7 +62,7 @@
     </EditForm>
 </div>
 
-<h4>Second Player Letter Selection:</h4>
+<h4>Second Player Letter Selection (<span class="red">Red</span>):</h4>
 <div>
     <EditForm Model="base.GameBoard">
         <InputRadioGroup @bind-Value="GameBoard.SecondPlayerLetter">
@@ -89,3 +73,23 @@
         </InputRadioGroup>
     </EditForm>
 </div>
+
+<Button Color="ButtonColor.Secondary" @onclick="(args) => StartNewGame(size)"> New Game </Button>
+
+
+@if (GameOver)
+{
+    <h3>Game is Over!</h3>
+    @if (firstPlayerScores > secondPlayerScores)
+    {
+        <h4>First Player is the winner!</h4>
+    }
+    @if (firstPlayerScores < secondPlayerScores)
+    {
+        <h4>Second Player is the winner!</h4>
+    }
+    @if (Equals(firstPlayerScores, secondPlayerScores))
+    {
+        <h4>The game is a draw!</h4>
+    }
+}

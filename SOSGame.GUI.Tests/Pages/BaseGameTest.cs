@@ -2,6 +2,8 @@
 using SOSGame.GUI.Data.Objects;
 using SOSGame.GUI.Pages;
 using SOSGame.GUI.Logic;
+using Microsoft.AspNetCore.Components.Web;
+using Blazor.Extensions;
 
 namespace SOSGame.GUI.Tests.Pages
 {
@@ -10,15 +12,30 @@ namespace SOSGame.GUI.Tests.Pages
         //Mock 
         public class BaseGameTest : BaseGame
         {
-            public BaseGameTest(IGameBoardFactory factory, IBaseGameLogic logic) 
+            public BaseGameTest(IGameBoardFactory factory, IGameLogic logic) 
             {
                 base.GameBoardFactory = factory;
-                base.BaseGameLogic = logic;
+                base.GameLogic = logic;
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
             }
-            public void TileClicked(int x, int y)
+            public async void ModifyCanvasTest(double x, double y)
             {
-                base.TileClicked(x, y);
+                await base.ModifyCanvas(x, y);
+            }
+
+            public void SetCanvasLogic(ICanvasLogic canvasLogic)
+            {
+                base.CanvasLogic = canvasLogic;
+            }
+
+            protected override void StartNewGame(string size)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetGameBoard(GameBoard gameBoard)
+            {
+                base.GameBoard = gameBoard;
             }
         }
 
