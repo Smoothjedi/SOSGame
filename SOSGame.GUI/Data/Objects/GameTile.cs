@@ -1,6 +1,4 @@
-﻿//using static SOSGame.GUI.Data.Objects.TileEnums;
-
-namespace SOSGame.GUI.Data.Objects
+﻿namespace SOSGame.GUI.Data.Objects
 {
     public class GameTile
     {

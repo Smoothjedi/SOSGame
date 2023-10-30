@@ -8,6 +8,5 @@ namespace SOSGame.GUI.Logic
         {
             return CheckIfBoardIsFull(board);
         }
-
     }
 }
