@@ -37,6 +37,11 @@ namespace SOSGame.GUI.Tests.Pages
             {
                 base.GameBoard = gameBoard;
             }
+
+            public void SetGameOver(bool gameOver)
+            {
+                base.GameOver = gameOver;
+            }
         }
 
     }
