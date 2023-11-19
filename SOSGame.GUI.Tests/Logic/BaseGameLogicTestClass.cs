@@ -14,5 +14,16 @@ namespace SOSGame.GUI.Tests.Logic
         {
             return false;
         }
+        
+        public string GetRandomLetterFromStringTest(string testString)
+        {
+            Random random = new Random();
+            return GetRandomLetterFromString(testString, random);
+        }
+
+        public AIMove MiniMaxAlphaBetaTest(int depth, bool maximizingPlayer, int alpha, int beta, GameBoard gameBoard, int x = -1, int y = -1)
+        {
+            return base.MiniMaxAlphaBeta(depth, maximizingPlayer, alpha, beta, gameBoard, x, y);
+        }
     }
 }

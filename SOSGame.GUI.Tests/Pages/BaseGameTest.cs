@@ -18,7 +18,7 @@ namespace SOSGame.GUI.Tests.Pages
                 base.GameLogic = logic;
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
             }
-            public async void ModifyCanvasTest(double x, double y)
+            public async void ModifyCanvasTest(int x, int y)
             {
                 await base.ModifyCanvas(x, y);
             }

@@ -43,37 +43,59 @@
 </div>
 
 
-
-<h4>First Player Letter Selection (<span class="blue">Blue</span>):</h4>
 <div>
-    <EditForm Model="base.GameBoard">
-        <InputRadioGroup @bind-Value="GameBoard.FirstPlayerLetter">
-            @foreach (var letter in LetterOptions)
-            {
-                if (LetterOptions.First().Equals(letter))
+    <h4>
+        <label for="firstPlayerHumanCheckbox">First Player Human?</label>
+        <InputCheckbox id="firstPlayerHumanCheckbox" @bind-Value="firstPlayerHuman"
+                       @onclick="ChangeToComputerPlayer">
+        </InputCheckbox>
+    </h4>
+</div>
+@if (firstPlayerHuman)
+{
+    <h4>First Player Letter Selection (<span class="blue">Blue</span>):</h4>
+    <div>
+        <EditForm Model="base.GameBoard">
+            <InputRadioGroup @bind-Value="GameBoard.FirstPlayerLetter">
+                @foreach (var letter in LetterOptions)
+                {
+                    if (LetterOptions.First().Equals(letter))
+                    {
+                        <InputRadio Value="letter" /> @letter <br />
+                    }
+                    else
+                    {
+                        <InputRadio Value="letter" /> @letter <br />
+                    }
+                }
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+}
+
+
+<div>
+    <h4>
+        <label for="secondPlayerHumanCheckbox">Second Player Human?</label>
+        <InputCheckbox id="secondPlayerHumanCheckbox" @bind-Value="secondPlayerHuman"
+        @onclick="ChangeToComputerPlayer">
+        </InputCheckbox>
+    </h4>
+</div>
+@if (secondPlayerHuman)
+{
+    <h4>Second Player Letter Selection (<span class="red">Red</span>):</h4>
+    <div>
+        <EditForm Model="base.GameBoard">
+            <InputRadioGroup @bind-Value="GameBoard.SecondPlayerLetter">
+                @foreach (var letter in LetterOptions)
                 {
                     <InputRadio Value="letter" /> @letter <br />
                 }
-                else
-                {
-                    <InputRadio Value="letter" /> @letter <br />
-                }
-            }
-        </InputRadioGroup>
-    </EditForm>
-</div>
-
-<h4>Second Player Letter Selection (<span class="red">Red</span>):</h4>
-<div>
-    <EditForm Model="base.GameBoard">
-        <InputRadioGroup @bind-Value="GameBoard.SecondPlayerLetter">
-            @foreach (var letter in LetterOptions)
-            {
-                <InputRadio Value="letter" /> @letter <br />
-            }
-        </InputRadioGroup>
-    </EditForm>
-</div>
+            </InputRadioGroup>
+        </EditForm>
+    </div>
+}
 
 <Button Color="ButtonColor.Secondary" @onclick="(args) => StartNewGame(size)"> New Game </Button>
 

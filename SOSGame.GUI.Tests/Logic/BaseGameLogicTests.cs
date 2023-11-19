@@ -249,5 +249,34 @@ namespace SOSGame.GUI.Tests.Logic
             var result = testClass.CheckForScore(1, 1, board);
             Assert.True(testClass.CheckForScore(1, 1, board).Count == 1);
         }
+
+        [Fact]
+        public void GetRandomLetterFromStringTest()
+        {
+            var gameLogicTest = new BaseGameLogicTestClass();
+            var result = gameLogicTest.GetRandomLetterFromStringTest("TestString");
+            for (int i = 0; i < 1000; i++) 
+            {
+                Assert.Contains(result, "TestString");
+
+            }
+        }
+
+        [Fact]
+        public void MiniMaxAlphaBetaTest()
+        {
+            var gameLogicTest = new BaseGameLogicTestClass();
+            IGameBoardFactory gameBoardFactory = new GameBoardFactory();
+            var board = gameBoardFactory.CreateDefaultGameBoard();
+
+            var move = gameLogicTest.MiniMaxAlphaBetaTest(1, true, int.MaxValue, int.MinValue, board);
+            Assert.NotNull(move);
+            Assert.NotEqual(-1, move.X);
+            Assert.NotEqual(-1, move.Y);
+            Assert.True(Equals(move.Letter, "S") || Equals(move.Letter, "O"));
+            Assert.True(move.Score >= 0);
+            Assert.True(move.X < board.Size);
+            Assert.True(move.Y < board.Size);
+        }
     }
 }

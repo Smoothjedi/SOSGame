@@ -8,5 +8,6 @@ namespace SOSGame.GUI.Logic
         bool UpdateGameBoardAfterClick(int x, int y, GameBoard board, bool firstPlayer);
         List<List<GameTile>> CheckForScore(int x, int y, GameBoard board);
         bool CheckForGameOver(int firstPlayerScore, int SecondPlayerScore, GameBoard board);
+        AIMove GetAIMove(GameBoard gameBoard);
     }
 }

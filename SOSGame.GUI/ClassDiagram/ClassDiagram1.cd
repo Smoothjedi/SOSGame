@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SOSGame.GUI.Pages.BaseGame">
+    <Position X="0.5" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAABAAgBAAABAAACASEAQCAAEEAiQAAQAAABQg=</HashCode>
+      <FileName>Pages\BaseGame.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SOSGame.GUI.Pages.GeneralGame">
+    <Position X="2.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Pages\GeneralGame.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SOSGame.GUI.Pages.SimpleGame">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Pages\SimpleGame.razor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SOSGame.GUI.Data.Factories.GameBoardFactory" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Factories\GameBoardFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SOSGame.GUI.Data.Objects.AIMove">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Data\Objects\AIMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SOSGame.GUI.Data.Objects.GameBoard">
+    <Position X="5" Y="3.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAAgAAAAAAgAAIAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Objects\GameBoard.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SOSGame.GUI.Data.Objects.GameTile">
+    <Position X="4.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Data\Objects\GameTile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SOSGame.GUI.Logic.BaseGameLogic">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAIAAAAAAACAAAEAAAAAAAAAAgAAAAAgAAgAAA=</HashCode>
+      <FileName>Logic\BaseGameLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SOSGame.GUI.Logic.CanvasLogic" BaseTypeListCollapsed="true">
+    <Position X="2.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEQAAAAAAAAAACAAAAAAACAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Logic\CanvasLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.658" />
+  </Class>
+  <Class Name="SOSGame.GUI.Logic.GameLogicFactory" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Logic\GameLogicFactory.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SOSGame.GUI.Logic.GeneralGameLogic">
+    <Position X="5.5" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Logic\GeneralGameLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SOSGame.GUI.Logic.SimpleGameLogic">
+    <Position X="5.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Logic\SimpleGameLogic.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="SOSGame.GUI.Data.Factories.IGameBoardFactory">
+    <Position X="2.75" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Factories\IGameBoardFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SOSGame.GUI.Logic.ICanvasLogic">
+    <Position X="0.5" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEQAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Logic\ICanvasLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SOSGame.GUI.Logic.IGameLogic">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAEAAAAAAAAAAgAAAAAgAAgAAA=</HashCode>
+      <FileName>Logic\IGameLogic.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SOSGame.GUI.Logic.IGameLogicFactory">
+    <Position X="2.75" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Logic\IGameLogicFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

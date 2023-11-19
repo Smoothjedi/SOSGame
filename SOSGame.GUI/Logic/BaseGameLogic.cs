@@ -162,5 +162,112 @@ namespace SOSGame.GUI.Logic
             return scoreTiles;
 
         }
+
+        protected string GetRandomLetterFromString(string text, Random random)
+        {
+            int randomIndex = random.Next(0, text.Length);
+            return text[randomIndex].ToString();
+        }
+
+        public AIMove GetAIMove(GameBoard gameBoard)
+        {
+            var move = MiniMaxAlphaBeta(1, true, int.MinValue, int.MaxValue, gameBoard);
+            //Adding some randomness to the selection if no potential scores can be found.
+            //Otherwise, AI vs AI would just fill all up with one letter.
+            if (Equals(move.Score, 0))
+            {
+                Random random = new Random();
+                var x = random.Next(gameBoard.Size);
+                var y = random.Next(gameBoard.Size);
+
+                while (!string.IsNullOrEmpty(gameBoard.Tiles[x, y].Letter))
+                {
+                    x = random.Next(gameBoard.Size);
+                    y = random.Next(gameBoard.Size);
+                }
+                move.X = x;
+                move.Y = y;
+                move.Letter = GetRandomLetterFromString("OS", random);
+            }
+            return move;
+        }
+
+        protected AIMove MiniMaxAlphaBeta(int depth, bool maximizingPlayer, int alpha, int beta, GameBoard gameBoard, int x = -1, int y = -1)
+        {
+            //base case
+            if (CheckIfBoardIsFull(gameBoard) || depth == 0)
+            {
+                return new AIMove(score: CheckForScore(x, y, gameBoard).Count, x:x, y:y);
+            }            
+
+            AIMove bestMove = new();
+            bestMove.Score = maximizingPlayer ? int.MinValue : int.MaxValue;
+
+            // iterate through possible moves
+            for (int i = 0; i < gameBoard.Tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameBoard.Tiles.GetLength(1); j++)
+                {
+                    if (string.IsNullOrEmpty(gameBoard.Tiles[i, j].Letter))
+                    {
+                        // check O options
+                        gameBoard.Tiles[i, j].Letter = "O";
+
+                        var move = MiniMaxAlphaBeta(depth - 1, !maximizingPlayer, alpha, beta, gameBoard, i, j);                        
+
+                        if (maximizingPlayer)
+                        {
+                            if (move.Score > bestMove.Score)
+                            {
+                                bestMove = move;
+                                bestMove.Letter = "O";
+                            }
+
+                            alpha = Math.Max(alpha, move.Score);
+                        }
+                        else
+                        {
+                            if (move.Score < bestMove.Score)
+                            {
+                                bestMove = move;
+                                bestMove.Letter = "O";
+                            }
+
+                            beta = Math.Min(beta, move.Score);
+                        }
+                        // check S options
+                        gameBoard.Tiles[i, j].Letter = "S";
+                        move = MiniMaxAlphaBeta(depth - 1, !maximizingPlayer, alpha, beta, gameBoard, i, j);
+
+                        if (maximizingPlayer)
+                        {
+                            if (move.Score > bestMove.Score)
+                            {
+                                bestMove = move;
+                                bestMove.Letter = "S";
+                            }
+
+                            alpha = Math.Max(alpha, move.Score);
+                        }
+                        else
+                        {
+                            if (move.Score < bestMove.Score)
+                            {
+                                bestMove = move;
+                                bestMove.Letter = "S";
+                            }
+
+                            beta = Math.Min(beta, move.Score);
+                        }
+                        // undo assignment
+                        gameBoard.Tiles[i, j].Letter = string.Empty; 
+                        if (beta <= alpha)
+                            break; 
+                    }
+                }
+            }
+
+            return bestMove;
+        }
     }
 }
