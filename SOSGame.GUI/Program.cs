@@ -31,8 +31,7 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-void SetupFactories(WebApplicationBuilder builder)
-{
+void SetupFactories(WebApplicationBuilder builder) {
     builder.Services.AddSingleton<IGameBoardFactory, GameBoardFactory>();
     builder.Services.AddSingleton<IGameLogicFactory,  GameLogicFactory>();
     builder.Services.AddSingleton<ICanvasLogic, CanvasLogic>();

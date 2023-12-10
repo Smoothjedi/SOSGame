@@ -1,33 +1,23 @@
 ﻿using Blazor.Extensions;
-using Blazor.Extensions.Canvas.Canvas2D;
 using SOSGame.GUI.Data.Objects;
 
-namespace SOSGame.GUI.Logic
-{
-    public class CanvasLogic : ICanvasLogic
-    {
+namespace SOSGame.GUI.Logic {
+    public class CanvasLogic : ICanvasLogic {
         private int defaultLineWith = 2;
         private int scoreLineWith = 5;
 
-        public async Task DrawLettersOnCanvas(Move move, 
-            bool firstPlayer, GameBoard gameBoard, BECanvasComponent canvasReference)
-        {
+        public async Task DrawLettersOnCanvas(Move move, bool firstPlayer, GameBoard gameBoard, BECanvasComponent canvasReference) {
             var context = await canvasReference.CreateCanvas2DAsync();
 
-            if (firstPlayer)
-            {
+            if (firstPlayer) {
                 await context.SetFillStyleAsync("blue");
-            }
-            else
-            {
+            } else {
                 await context.SetFillStyleAsync("red");
             }
-            await context.FillTextAsync(gameBoard.Tiles[move.X, move.Y].Letter,
-                move.X * 62 + 15, move.Y * 62 + 45);
+            await context.FillTextAsync(gameBoard.Tiles[move.X, move.Y].Letter, move.X * 62 + 15, move.Y * 62 + 45);
         }
 
-        public async Task DrawScoreLines(List<GameTile> score, string color, BECanvasComponent canvasReference)
-        {
+        public async Task DrawScoreLines(List<GameTile> score, string color, BECanvasComponent canvasReference) {
             var context = await canvasReference.CreateCanvas2DAsync();
 
             await context.SetLineWidthAsync(scoreLineWith);
@@ -45,8 +35,7 @@ namespace SOSGame.GUI.Logic
             await context.SetLineWidthAsync(defaultLineWith);
         }
 
-        public async Task DrawBoardAsync(GameBoard gameBoard, BECanvasComponent canvasReference)
-        {
+        public async Task DrawBoardAsync(GameBoard gameBoard, BECanvasComponent canvasReference) {
             var context = await canvasReference.CreateCanvas2DAsync();
             await context.SetFontAsync("40px Arial");
             await context.SetLineWidthAsync(defaultLineWith);
@@ -61,8 +50,7 @@ namespace SOSGame.GUI.Logic
             await context.MoveToAsync(0, 0);
             await context.LineToAsync(gameBoard.Dimensions, 0);
 
-            for (int i = 1; i < gameBoard.Size; i++)
-            {
+            for (int i = 1; i < gameBoard.Size; i++) {
                 await context.SetLineWidthAsync(defaultLineWith);
 
                 await context.MoveToAsync(i * 62, 0);
@@ -72,7 +60,7 @@ namespace SOSGame.GUI.Logic
                 await context.LineToAsync(gameBoard.Dimensions, i * 62);
             }
             await context.StrokeAsync();
-
         }
     }
 }
+

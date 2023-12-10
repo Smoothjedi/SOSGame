@@ -3,55 +3,38 @@ using SOSGame.GUI.Data.Objects;
 using SOSGame.GUI.Logic;
 using System.Text.RegularExpressions;
 
-namespace SOSGame.GUI.Pages
-{
-    public partial class GeneralGame : BaseGame
-    {
-        protected override async Task LogGameStartInformation()
-        {
+namespace SOSGame.GUI.Pages {
+    public partial class GeneralGame : BaseGame {
+        protected override async Task LogGameStartInformation() {
             GameLogger.ResetLog();
             await GameLogger.Log($"Beginning new General game with size {GameBoard.Size} at {DateTime.Now}");
         }
 
-        protected override void OnInitialized()
-        {
+        protected override void OnInitialized() {
             base.OnInitialized();
-            if (string.IsNullOrEmpty(size)
-                || (int.TryParse(size, out var boardSize) && (boardSize < 3 || boardSize > 10)))
-            {
+            if (string.IsNullOrEmpty(size) || (int.TryParse(size, out var boardSize) && (boardSize < 3 || boardSize > 10))) {
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
-            }
-            else
-            {
+            } else {
                 GameBoard = GameBoardFactory.CreateGameBoard(boardSize);
             }
             GameLogic = GameLogicFactory.GetGameLogic("general");
 
-            if (!string.IsNullOrEmpty(moves))
-            {
+            if (!string.IsNullOrEmpty(moves)) {
                 var splitMoves = moves.Split(',');
-                foreach (var moveText in splitMoves)
-                {
-                    if (Regex.IsMatch(moveText, $"^[0-{GameBoard.Size - 1}]{{2}}[SO]$"))
-                    {
+                foreach (var moveText in splitMoves) {
+                    if (Regex.IsMatch(moveText, $"^[0-{GameBoard.Size - 1}]{{2}}[SO]$")) {
                         var moveArray = moveText.ToCharArray();
                         var move = new Move();
-                        if (int.TryParse(moveArray[0].ToString(), out var x) && int.TryParse(moveArray[1].ToString(), out var y))
-                        {
+                        if (int.TryParse(moveArray[0].ToString(), out var x) && int.TryParse(moveArray[1].ToString(), out var y)) {
                             move.X = x;
                             move.Y = y;
                             move.Letter = moveArray[2].ToString();
                             ReplayMoves.Enqueue(move);
-                        }
-                        else
-                        {
+                        } else {
                             ReplayMoves.Clear();
                             break;
                         }
-
-                    }
-                    else
-                    {
+                    } else {
                         ReplayMoves.Clear();
                         break;
                     }
@@ -60,3 +43,4 @@ namespace SOSGame.GUI.Pages
         }
     }
 }
+
