@@ -49,11 +49,24 @@ namespace SOSGame.GUI.Pages {
             move.X = (int)Math.Truncate(eventArgs.OffsetX / 62);
             move.Y = (int)Math.Truncate(eventArgs.OffsetY / 62);
             move.Letter = FirstPlayer ? GameBoard.FirstPlayerLetter : GameBoard.SecondPlayerLetter;
-            if (GameOver || !firstPlayerHuman && !secondPlayerHuman || (FirstPlayer && !firstPlayerHuman) || (!FirstPlayer && !secondPlayerHuman) || move.X < 0 || move.Y < 0 || move.X >= GameBoard.Size || move.Y >= GameBoard.Size || !string.IsNullOrEmpty(GameBoard.Tiles[move.X, move.Y].Letter) || ReplayMoves.Any()) {
+            if (GameOver 
+                || !firstPlayerHuman && !secondPlayerHuman 
+                || (FirstPlayer && !firstPlayerHuman) 
+                || (!FirstPlayer && !secondPlayerHuman) 
+                || move.X < 0 
+                || move.Y < 0 
+                || move.X >= GameBoard.Size 
+                || move.Y >= GameBoard.Size 
+                || !string.IsNullOrEmpty(GameBoard.Tiles[move.X, move.Y].Letter) 
+                || ReplayMoves.Any()) {
                 return;
             }
             await PerformTurn(move);
-            if (FirstPlayer && !firstPlayerHuman && secondPlayerHuman && !GameOver || (!FirstPlayer && firstPlayerHuman && !secondPlayerHuman && !GameOver)) {
+            if (FirstPlayer 
+                && !firstPlayerHuman 
+                && secondPlayerHuman 
+                && !GameOver 
+                || (!FirstPlayer && firstPlayerHuman && !secondPlayerHuman && !GameOver)) {
                 await PerformAIPlayerTurn();
             }
             return;

@@ -12,14 +12,23 @@ namespace SOSGame.GUI.Logic {
             }
         }
 
-        protected bool CheckIfBoardIsFull(GameBoard board) {
-            foreach (var tile in board.Tiles) {
-                if (string.IsNullOrEmpty(tile.Letter)) {
-                    return false;
+        public AIMove GetAIMove(GameBoard gameBoard) {
+            var move = MiniMaxAlphaBeta(1, true, int.MinValue, int.MaxValue, gameBoard);
+            if (Equals(move.Score, 0)) {
+                Random random = new Random();
+                var x = random.Next(gameBoard.Size);
+                var y = random.Next(gameBoard.Size);
+
+                while (!string.IsNullOrEmpty(gameBoard.Tiles[x, y].Letter)) {
+                    x = random.Next(gameBoard.Size);
+                    y = random.Next(gameBoard.Size);
                 }
+                move.X = x;
+                move.Y = y;
+                move.Letter = GetRandomLetterFromString("OS", random);
             }
-            return true;
-        }
+            return move;
+        }        
 
         public List<List<GameTile>> CheckForScore(GameTile tile, GameBoard gameBoard) {
             var scoreTiles = new List<List<GameTile>>();
@@ -86,17 +95,29 @@ namespace SOSGame.GUI.Logic {
                 if (string.Equals("S", westTile?.Letter) && string.Equals("S", eastTile?.Letter)) {
                     scoreTiles.Add(new List<GameTile>() { westTile, eastTile });
                 }
-                if (string.Equals("S", northWestTile?.Letter) && string.Equals("S", southEastTile?.Letter)) {
+                if (string.Equals("S", northWestTile?.Letter) 
+                    && string.Equals("S", southEastTile?.Letter)) {
                     scoreTiles.Add(new List<GameTile>() { northWestTile, southEastTile });
                 }
-                if (string.Equals("S", northTile?.Letter) && string.Equals("S", southTile?.Letter)) {
+                if (string.Equals("S", northTile?.Letter) 
+                    && string.Equals("S", southTile?.Letter)) {
                     scoreTiles.Add(new List<GameTile>() { northTile, southTile });
                 }
-                if (string.Equals("S", northEastTile?.Letter) && string.Equals("S", southWestTile?.Letter)) {
+                if (string.Equals("S", northEastTile?.Letter) 
+                    && string.Equals("S", southWestTile?.Letter)) {
                     scoreTiles.Add(new List<GameTile>() { northEastTile, southWestTile });
                 }
             }
             return scoreTiles;
+        }
+
+        protected bool CheckIfBoardIsFull(GameBoard board) {
+            foreach (var tile in board.Tiles) {
+                if (string.IsNullOrEmpty(tile.Letter)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         protected GameTile? GetNorthWestTile(GameTile? tile, GameBoard gameBoard) {
@@ -160,27 +181,11 @@ namespace SOSGame.GUI.Logic {
             return text[randomIndex].ToString();
         }
 
-        public AIMove GetAIMove(GameBoard gameBoard) {
-            var move = MiniMaxAlphaBeta(1, true, int.MinValue, int.MaxValue, gameBoard);
-            if (Equals(move.Score, 0)) {
-                Random random = new Random();
-                var x = random.Next(gameBoard.Size);
-                var y = random.Next(gameBoard.Size);
-
-                while (!string.IsNullOrEmpty(gameBoard.Tiles[x, y].Letter)) {
-                    x = random.Next(gameBoard.Size);
-                    y = random.Next(gameBoard.Size);
-                }
-                move.X = x;
-                move.Y = y;
-                move.Letter = GetRandomLetterFromString("OS", random);
-            }
-            return move;
-        }
-
-        protected AIMove MiniMaxAlphaBeta(int depth, bool maximizingPlayer, int alpha, int beta, GameBoard gameBoard, int x = -1, int y = -1) {
+        protected AIMove MiniMaxAlphaBeta(int depth, bool maximizingPlayer, int alpha, int beta,
+            GameBoard gameBoard, int x = -1, int y = -1) {
             if (CheckIfBoardIsFull(gameBoard) || depth == 0) {
-                return new AIMove(score: CheckForScore(gameBoard.Tiles[x, y], gameBoard).Count, x: x, y: y);
+                return new AIMove(score: CheckForScore(
+                    gameBoard.Tiles[x, y], gameBoard).Count, x: x, y: y);
             }
 
             AIMove bestMove = new();
@@ -190,7 +195,8 @@ namespace SOSGame.GUI.Logic {
                 for (int j = 0; j < gameBoard.Tiles.GetLength(1); j++) {
                     if (string.IsNullOrEmpty(gameBoard.Tiles[i, j].Letter)) {
                         gameBoard.Tiles[i, j].Letter = "O";
-                        var move = MiniMaxAlphaBeta(depth - 1, !maximizingPlayer, alpha, beta, gameBoard, i, j);
+                        var move = MiniMaxAlphaBeta(depth - 1, 
+                            !maximizingPlayer, alpha, beta, gameBoard, i, j);
 
                         if (maximizingPlayer) {
                             if (move.Score > bestMove.Score) {
@@ -206,7 +212,8 @@ namespace SOSGame.GUI.Logic {
                             beta = Math.Min(beta, move.Score);
                         }
                         gameBoard.Tiles[i, j].Letter = "S";
-                        move = MiniMaxAlphaBeta(depth - 1, !maximizingPlayer, alpha, beta, gameBoard, i, j);
+                        move = MiniMaxAlphaBeta(depth - 1, !maximizingPlayer, 
+                            alpha, beta, gameBoard, i, j);
 
                         if (maximizingPlayer) {
                             if (move.Score > bestMove.Score) {
@@ -227,7 +234,6 @@ namespace SOSGame.GUI.Logic {
                     }
                 }
             }
-
             return bestMove;
         }
     }

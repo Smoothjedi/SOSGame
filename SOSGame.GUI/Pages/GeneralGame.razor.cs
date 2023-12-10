@@ -7,12 +7,14 @@ namespace SOSGame.GUI.Pages {
     public partial class GeneralGame : BaseGame {
         protected override async Task LogGameStartInformation() {
             GameLogger.ResetLog();
-            await GameLogger.Log($"Beginning new General game with size {GameBoard.Size} at {DateTime.Now}");
+            await GameLogger.Log($"Beginning new General game with size {GameBoard.Size} " +
+                $"at {DateTime.Now}");
         }
 
         protected override void OnInitialized() {
             base.OnInitialized();
-            if (string.IsNullOrEmpty(size) || (int.TryParse(size, out var boardSize) && (boardSize < 3 || boardSize > 10))) {
+            if (string.IsNullOrEmpty(size) || (int.TryParse(size, out var boardSize) 
+                && (boardSize < 3 || boardSize > 10))) {
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
             } else {
                 GameBoard = GameBoardFactory.CreateGameBoard(boardSize);
@@ -25,7 +27,8 @@ namespace SOSGame.GUI.Pages {
                     if (Regex.IsMatch(moveText, $"^[0-{GameBoard.Size - 1}]{{2}}[SO]$")) {
                         var moveArray = moveText.ToCharArray();
                         var move = new Move();
-                        if (int.TryParse(moveArray[0].ToString(), out var x) && int.TryParse(moveArray[1].ToString(), out var y)) {
+                        if (int.TryParse(moveArray[0].ToString(), out var x) 
+                            && int.TryParse(moveArray[1].ToString(), out var y)) {
                             move.X = x;
                             move.Y = y;
                             move.Letter = moveArray[2].ToString();

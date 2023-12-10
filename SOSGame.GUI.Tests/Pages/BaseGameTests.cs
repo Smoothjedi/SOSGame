@@ -10,7 +10,6 @@ namespace SOSGame.GUI.Tests.Pages {
         [Fact]
         public void CanvasClickedCallsToDrawLine() {
             Mock<IGameLogic> gblMock = new Mock<IGameLogic>();
-            //gblMock.Setup(m => m.UpdateGameBoardAfterClick(It.IsAny<GameTile>(), It.IsAny<string>())).Returns(true);
             gblMock.Setup(m => m.CheckForScore(It.IsAny<GameTile>(), It.IsAny<GameBoard>()))
                 .Returns(new List<List<GameTile>>()
                 {
@@ -44,8 +43,6 @@ namespace SOSGame.GUI.Tests.Pages {
             baseGameTest.SetLogging(logMock.Object);
             var move = new Move("O", 1, 1);
             baseGameTest.ModifyCanvasTest(move);
-
-            //gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Once());
 
             canvasMock.Verify(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(),
                 It.IsAny<BECanvasComponent>()), Times.Once());
