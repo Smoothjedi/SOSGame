@@ -18,9 +18,9 @@ namespace SOSGame.GUI.Tests.Pages
                 base.GameLogic = logic;
                 GameBoard = GameBoardFactory.CreateDefaultGameBoard();
             }
-            public async void ModifyCanvasTest(int x, int y)
+            public async void ModifyCanvasTest(Move move)
             {
-                await base.ModifyCanvas(x, y);
+                await base.ModifyCanvas(move);
             }
 
             public void SetCanvasLogic(ICanvasLogic canvasLogic)
@@ -41,6 +41,21 @@ namespace SOSGame.GUI.Tests.Pages
             public void SetGameOver(bool gameOver)
             {
                 base.GameOver = gameOver;
+            }
+
+            protected override void StartNewGame(string size, string moves)
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override Task LogGameStartInformation()
+            {
+                throw new NotImplementedException();
+            }
+
+            public void SetLogging(IGameLogger logging)
+            {
+                GameLogger = logging;
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿@page "/simplegame"
 @page "/simplegame/{size}"
+@page "/simplegame/{size}/{moves}"
 @using SOSGame.GUI.Data;
 @using SOSGame.GUI.Data.Factories;
 @using SOSGame.GUI.Data.Objects;
@@ -17,9 +18,17 @@
     [Parameter]
     public string size { get; set; }
 
+    [Parameter]
+    public string moves { get; set; }
+
     protected override void StartNewGame(string boardSize)
     {
         navigationManager.NavigateTo($"/simplegame/{boardSize}", true);
+    }
+
+    protected override void StartNewGame(string boardSize, string moves)
+    {
+        navigationManager.NavigateTo($"/simplegame/{boardSize}/{moves}", true);
     }
 }
 
@@ -99,6 +108,10 @@
 
 <Button Color="ButtonColor.Secondary" @onclick="(args) => StartNewGame(size)"> New Game </Button>
 
+@* <InputFile OnChange="@LoadFiles" /> *@
+
+
+
 @if (GameOver)
 {
     <h3>Game is Over!</h3>
@@ -114,4 +127,7 @@
     {
         <h4>The game is a draw!</h4>
     }
+
+    <h3>Would you like to Replay the game you just played?</h3>
+    <Button Color="ButtonColor.Secondary" @onclick="(args) => StartNewGame(size, SerializeGameMoves())"> Replay? </Button>
 }

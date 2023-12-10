@@ -1,34 +1,10 @@
 ﻿using SOSGame.GUI.Data.Objects;
-using System.Collections.Generic;
 
 namespace SOSGame.GUI.Logic
 {
     public abstract class BaseGameLogic : IGameLogic
     {
-        public abstract bool CheckForGameOver(int firstPlayerScore, int SecondPlayerScore, GameBoard board);
-
-        public bool UpdateGameBoardAfterClick(int x, int y, GameBoard board, bool firstPlayer)
-        {
-            if (x >= board.Size ||  y >= board.Size)
-            {
-                return false;
-            }
-            var selectedGameTile = board.Tiles[x, y];
-            if (string.IsNullOrEmpty(selectedGameTile.Letter))
-            {
-                if (firstPlayer)
-                {
-                    selectedGameTile.Letter = board.FirstPlayerLetter;
-                }
-                else
-                {
-                    selectedGameTile.Letter = board.SecondPlayerLetter;
-                }
-                return true;
-            }
-            return false;
-        }
-    
+        public abstract bool CheckForGameOver(int firstPlayerScore, int SecondPlayerScore, GameBoard board); 
 
         public bool ChangeTurn(bool firstPlayer)
         {
@@ -54,114 +30,210 @@ namespace SOSGame.GUI.Logic
             return true;
         }
 
-        public List<List<GameTile>> CheckForScore(int x, int y, GameBoard board)
+        public List<List<GameTile>> CheckForScore(GameTile tile, GameBoard gameBoard)
         {
             var scoreTiles = new List<List<GameTile>>();
-            if (board == null) return new List<List<GameTile>>();
+            if (gameBoard == null) return new List<List<GameTile>>();
+            var westTile = GetWestTile(tile, gameBoard);
+            var northWestTile = GetNorthWestTile(tile, gameBoard);
+            var northTile = GetNorthTile(tile, gameBoard);
+            var northEastTile = GetNorthEastTile(tile, gameBoard);
+            var eastTile = GetEastTile(tile, gameBoard);
+            var southEastTile = GetSouthEastTile(tile, gameBoard);
+            var southTile = GetSouthTile(tile, gameBoard);
+            var southWestTile = GetSouthWestTile(tile, gameBoard);
 
-            var selectedTile = board.Tiles[x, y];
-            if (string.Equals("S", selectedTile.Letter))
+            //var selectedTile = board.Tiles[x, y];
+            if (string.Equals("S", tile.Letter))
             {
                 //West
-                if (x - 1 > 0 && string.Equals("O", board.Tiles[x - 1, y].Letter))
+                if (string.Equals("O", westTile?.Letter))
                 {
-                    if (x - 2 >= 0 && string.Equals("S", board.Tiles[x - 2, y].Letter))
+                    var secondWestTile = GetWestTile(westTile, gameBoard);
+                    if (string.Equals("S", secondWestTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x - 2, y] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondWestTile });
                     }
                 }
                 //Northwest
-                if (x - 1 > 0 && y - 1 > 0 && string.Equals("O", board.Tiles[x - 1, y - 1].Letter))
+                if (string.Equals("O", northWestTile?.Letter))
                 {
-                    if (x - 2 >= 0 && y - 2 >= 0 && string.Equals("S", board.Tiles[x - 2, y - 2].Letter))
+                    var secondNorthWestTile = GetNorthWestTile(northWestTile, gameBoard);
+                    if (string.Equals("S", secondNorthWestTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x - 2, y - 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondNorthWestTile });
                     }
                 }
                 //North
-                if (y - 1 > 0 && string.Equals("O", board.Tiles[x, y - 1].Letter))
+                if (string.Equals("O", northTile?.Letter))
                 {
-                    if (y - 2 >= 0 && string.Equals("S", board.Tiles[x, y - 2].Letter))
+                    var secondNorthTile = GetNorthTile(northTile, gameBoard);
+                    if (string.Equals("S", secondNorthTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x, y - 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondNorthTile });
                     }
                 }
                 //Northeast
-                if (x + 1 < board.Size && y - 1 > 0 && string.Equals("O", board.Tiles[x + 1, y - 1].Letter))
+                if (string.Equals("O", northEastTile?.Letter))
                 {
-                    if (x + 2 < board.Size && y - 2 >= 0 && string.Equals("S", board.Tiles[x + 2, y - 2].Letter))
+                    var secondNorthEastTile = GetNorthEastTile(northEastTile, gameBoard);
+                    if (string.Equals("S", secondNorthEastTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x + 2, y - 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondNorthEastTile });
                     }
                 }
                 //East
-                if (x + 1 < board.Size && string.Equals("O", board.Tiles[x + 1, y].Letter))
+                if (string.Equals("O", eastTile?.Letter))
                 {
-                    if (x + 2 < board.Size && string.Equals("S", board.Tiles[x + 2, y].Letter))
+                    var secondEastTile = GetEastTile(eastTile, gameBoard);
+                    if (string.Equals("S", secondEastTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x + 2, y] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondEastTile });
                     }
                 }
                 //SouthEast
-                if (x + 1 < board.Size && y + 1 < board.Size && string.Equals("O", board.Tiles[x + 1, y + 1].Letter))
+                if (string.Equals("O", southEastTile?.Letter))
                 {
-                    if (x + 2 < board.Size && y + 2 < board.Size && string.Equals("S", board.Tiles[x + 2, y + 2].Letter))
+                    var secondSouthEastTile = GetSouthEastTile(southEastTile, gameBoard);
+                    if (string.Equals("S", secondSouthEastTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x + 2, y + 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondSouthEastTile });
                     }
                 }
                 //South
-                if (y + 1 < board.Size && string.Equals("O", board.Tiles[x, y + 1].Letter))
+                if (string.Equals("O", southTile?.Letter))
                 {
-                    if (y + 2 < board.Size && string.Equals("S", board.Tiles[x, y + 2].Letter))
+                    var secondSouthTile = GetSouthTile(southTile, gameBoard);
+                    if (string.Equals("S", secondSouthTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x, y + 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondSouthTile });
                     }
                 }
                 //Southwest
-                if (x - 1 > 0 && y + 1 < board.Size && string.Equals("O", board.Tiles[x - 1, y + 1].Letter))
+                if (string.Equals("O", southWestTile?.Letter))
                 {
-                    if (x - 2 >= 0 && y + 2 < board.Size && string.Equals("S", board.Tiles[x - 2, y + 2].Letter))
+                    var secondSouthwestTile = GetSouthWestTile(southWestTile, gameBoard);
+                    if (string.Equals("S", secondSouthwestTile?.Letter))
                     {
-                        scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y], board.Tiles[x - 2, y + 2] });
+                        scoreTiles.Add(new List<GameTile>() { tile, secondSouthwestTile });
                     }
                 }
             }
             else
             {
                 //West + East
-                if (x - 1 >= 0 && x + 1 < board.Size 
-                    && string.Equals("S", board.Tiles[x - 1, y].Letter) 
-                    && string.Equals("S", board.Tiles[x + 1, y].Letter))
+                if (string.Equals("S", westTile?.Letter)
+                    && string.Equals("S", eastTile?.Letter))
                 {
-                    scoreTiles.Add(new List<GameTile>() { board.Tiles[x - 1, y], board.Tiles[x + 1, y] });
+                    scoreTiles.Add(new List<GameTile>() { westTile, eastTile });
                 }
                 //Northwest + SouthEast
-                if (x - 1 >= 0 && y - 1 >= 0 && x + 1 < board.Size && y + 1 < board.Size
-                    && string.Equals("S", board.Tiles[x - 1, y - 1].Letter)
-                    && string.Equals("S", board.Tiles[x + 1, y + 1].Letter))
-                {                  
-                    scoreTiles.Add(new List<GameTile>() { board.Tiles[x - 1, y - 1], board.Tiles[x +1, y + 1] });                    
+                if (string.Equals("S", northWestTile?.Letter)
+                    && string.Equals("S", southEastTile?.Letter))
+                {
+                    scoreTiles.Add(new List<GameTile>() { northWestTile, southEastTile });
                 }
                 //North + South
-                if (y - 1 >= 0 && y + 1 < board.Size
-                    && string.Equals("S", board.Tiles[x, y - 1].Letter)
-                    && string.Equals("S", board.Tiles[x, y + 1].Letter))
-                { 
-                    scoreTiles.Add(new List<GameTile>() { board.Tiles[x, y - 1], board.Tiles[x, y + 1] });                    
+                if (string.Equals("S", northTile?.Letter)
+                    && string.Equals("S", southTile?.Letter))
+                {
+                    scoreTiles.Add(new List<GameTile>() { northTile, southTile });
                 }
                 //Northeast + Southwest
-                if (x + 1 < board.Size && y - 1 >= 0 && x - 1 >= 0 && y + 1 < board.Size
-                    && string.Equals("S", board.Tiles[x + 1, y - 1].Letter)
-                    && string.Equals("S", board.Tiles[x - 1, y + 1].Letter))
+                if (string.Equals("S", northEastTile?.Letter)
+                    && string.Equals("S", southWestTile?.Letter))
                 {
-                    scoreTiles.Add(new List<GameTile>() { board.Tiles[x + 1, y - 1], board.Tiles[x - 1, y + 1] });
+                    scoreTiles.Add(new List<GameTile>() { northEastTile, southWestTile });
                 }
 
             }
             return scoreTiles;
-
         }
+
+        protected GameTile? GetNorthWestTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X - 1 >= 0 
+                && tile.Y - 1 >= 0)
+            {
+                return gameBoard.Tiles[tile.X - 1, tile.Y - 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetNorthTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.Y - 1 >= 0)
+            {
+                return gameBoard.Tiles[tile.X, tile.Y - 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetNorthEastTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X + 1 < gameBoard.Size 
+                && tile.Y - 1 >= 0)
+            {
+                return gameBoard.Tiles[tile.X + 1, tile.Y - 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetEastTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X + 1 < gameBoard.Size)
+            {
+                return gameBoard.Tiles[tile.X + 1, tile.Y];
+            }
+            return null;
+        }
+
+        protected GameTile? GetSouthEastTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X + 1 < gameBoard.Size 
+                && tile.Y + 1 < gameBoard.Size)
+            {
+                return gameBoard.Tiles[tile.X + 1, tile.Y + 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetSouthTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.Y + 1 < gameBoard.Size)
+            {
+                return gameBoard.Tiles[tile.X, tile.Y + 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetSouthWestTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X - 1 >= 0 
+                && tile.Y + 1 < gameBoard.Size)
+            {
+                return gameBoard.Tiles[tile.X - 1, tile.Y + 1];
+            }
+            return null;
+        }
+
+        protected GameTile? GetWestTile(GameTile? tile, GameBoard gameBoard)
+        {
+            if (tile != null 
+                && tile.X - 1 >= 0)
+            {
+                return gameBoard.Tiles[tile.X - 1, tile.Y];
+            }
+            return null;
+        }
+
 
         protected string GetRandomLetterFromString(string text, Random random)
         {
@@ -197,7 +269,7 @@ namespace SOSGame.GUI.Logic
             //base case
             if (CheckIfBoardIsFull(gameBoard) || depth == 0)
             {
-                return new AIMove(score: CheckForScore(x, y, gameBoard).Count, x:x, y:y);
+                return new AIMove(score: CheckForScore(gameBoard.Tiles[x,y], gameBoard).Count, x:x, y:y);
             }            
 
             AIMove bestMove = new();

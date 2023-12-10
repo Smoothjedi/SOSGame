@@ -1,5 +1,6 @@
 ﻿@page "/generalgame"
 @page "/generalgame/{size}"
+@page "/generalgame/{size}/{moves}"
 @using SOSGame.GUI.Data;
 @using SOSGame.GUI.Data.Factories;
 @using SOSGame.GUI.Data.Objects;
@@ -17,9 +18,17 @@
     [Parameter]
     public string size { get; set; }
 
+    [Parameter]
+    public string moves { get; set; }
+
     protected override void StartNewGame(string boardSize)
     {
         navigationManager.NavigateTo($"/generalgame/{boardSize}", true);
+    }
+
+    protected override void StartNewGame(string boardSize, string moves)
+    {
+        navigationManager.NavigateTo($"/generalgame/{boardSize}/{moves}", true);
     }
 }
 
@@ -116,4 +125,8 @@
     {
         <h4>The game is a draw!</h4>
     }
+
+    <h3>Would you like to Replay the game you just played?</h3>
+    <Button Color="ButtonColor.Secondary" @onclick="(args) => StartNewGame(GameBoard.Size.ToString(), SerializeGameMoves())"> Replay? </Button>
 }
+

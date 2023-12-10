@@ -1,85 +1,76 @@
 ﻿using Blazor.Extensions;
-using Blazor.Extensions.Canvas.Canvas2D;
-using Microsoft.AspNetCore.Components.Web;
 using Moq;
 using SOSGame.GUI.Data.Factories;
 using SOSGame.GUI.Data.Objects;
 using SOSGame.GUI.Logic;
-using System.Windows.Input;
 
 namespace SOSGame.GUI.Tests.Pages
 {
     public partial class BaseGameTests
     {
-
-        //[Fact]
-        //public void CanvasClickedSuccessfullyChangesTurnTest()
-        //{
-        //    Mock<IGameLogic> gblMock  = new Mock<IGameLogic>();
-        //    gblMock.Setup(m => m.UpdateGameBoardAfterClick(
-        //        It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(true);
-        //    gblMock.Setup(m => m.CheckForScore(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>())).Returns(new List<List<GameTile>>());
-        //    gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
-        //    var canvasMock = new Mock<ICanvasLogic>();
-        //    canvasMock.Setup(m => m.DrawBoardAsync(It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
-        //    canvasMock.Setup(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(), It.IsAny<BECanvasComponent>()));
-        //    canvasMock.Setup(m => m.DrawLettersOnCanvas(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
-
-
-        //    var baseGameTest = new BaseGameTest(new Mock<IGameBoardFactory>().Object, gblMock.Object);
-        //    baseGameTest.SetGameBoard(new GameBoard());
-        //    baseGameTest.SetCanvasLogic(canvasMock.Object);
-        //    baseGameTest.ModifyCanvasTest(20, 40);
-
-        //    gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Never());
-        //}
-
         [Fact]
-        public void CanvasClickedDoesNotChangeTurnTest()
+        public void CanvasClickedCallsToDrawLine()
         {
             Mock<IGameLogic> gblMock = new Mock<IGameLogic>();
-            gblMock.Setup(m => m.UpdateGameBoardAfterClick(
-                It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(true);
-            gblMock.Setup(m => m.CheckForScore(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>())).Returns(new List<List<GameTile>>());
+            //gblMock.Setup(m => m.UpdateGameBoardAfterClick(It.IsAny<GameTile>(), It.IsAny<string>())).Returns(true);
+            gblMock.Setup(m => m.CheckForScore(It.IsAny<GameTile>(), It.IsAny<GameBoard>()))
+                .Returns(new List<List<GameTile>>()
+                {
+                    {
+                        new List<GameTile>
+                        {
+                            new GameTile() { X = 0, Y = 1, Letter = "S" },
+                            new GameTile() { X = 2, Y = 1, Letter="S" }
+                        }
+                    }
+                });
+            Mock<IGameLogger> logMock = new Mock<IGameLogger>();
+            //gblMock.
             gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
             var canvasMock = new Mock<ICanvasLogic>();
             canvasMock.Setup(m => m.DrawBoardAsync(It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
             canvasMock.Setup(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(), It.IsAny<BECanvasComponent>()));
-            canvasMock.Setup(m => m.DrawLettersOnCanvas(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
+            canvasMock.Setup(m => m.DrawLettersOnCanvas(It.IsAny<Move>(), It.IsAny<bool>(), It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
 
-
+            var gameBoard = new GameBoardFactory().CreateDefaultGameBoard();
+            gameBoard.Tiles[0, 1].Letter = "S";
+            gameBoard.Tiles[2, 1].Letter = "S";
             var baseGameTest = new BaseGameTest(new Mock<IGameBoardFactory>().Object, gblMock.Object);
-            baseGameTest.SetGameBoard(new GameBoard());
+            baseGameTest.SetGameBoard(gameBoard);
             baseGameTest.SetCanvasLogic(canvasMock.Object);
-            baseGameTest.ModifyCanvasTest(20, 400000);
+            logMock.Setup(m => m.Log(It.IsAny<string>()));
+            baseGameTest.SetLogging(logMock.Object);
+            var move = new Move("O", 1, 1);
+            baseGameTest.ModifyCanvasTest(move);
 
-            gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Never());
+            //gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Once());
+
+            canvasMock.Verify(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(), It.IsAny<BECanvasComponent>()), Times.Once());
         }
 
         [Fact]
-        public void CanvasClickedDoesNotChangeTurnGameOverTest()
+        public void CanvasClickedDoesNotDrawLine()
         {
             Mock<IGameLogic> gblMock = new Mock<IGameLogic>();
-            gblMock.Setup(m => m.UpdateGameBoardAfterClick(
-                It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>(), It.IsAny<bool>())).Returns(true);
-            gblMock.Setup(m => m.CheckForScore(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<GameBoard>())).Returns(new List<List<GameTile>>());
+            gblMock.Setup(m => m.CheckForScore(It.IsAny<GameTile>(), It.IsAny<GameBoard>())).Returns(new List<List<GameTile>>());
             gblMock.Setup(m => m.ChangeTurn(It.IsAny<bool>())).Returns(true);
             var canvasMock = new Mock<ICanvasLogic>();
             canvasMock.Setup(m => m.DrawBoardAsync(It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
             canvasMock.Setup(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(), It.IsAny<BECanvasComponent>()));
-            canvasMock.Setup(m => m.DrawLettersOnCanvas(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
+            canvasMock.Setup(m => m.DrawLettersOnCanvas(It.IsAny<Move>(), It.IsAny<bool>(), It.IsAny<GameBoard>(), It.IsAny<BECanvasComponent>()));
 
 
             var baseGameTest = new BaseGameTest(new Mock<IGameBoardFactory>().Object, gblMock.Object);
-            var board = new GameBoard();
-            
-            baseGameTest.SetGameBoard(new GameBoard());
+            var gameBoard = new GameBoardFactory().CreateDefaultGameBoard();
+
+            baseGameTest.SetGameBoard(gameBoard);
             baseGameTest.SetGameOver(true);
 
             baseGameTest.SetCanvasLogic(canvasMock.Object);
-            baseGameTest.ModifyCanvasTest(20, 40);
+            var move = new Move("O", 0, 0);
+            baseGameTest.ModifyCanvasTest(move);
 
-            gblMock.Verify(m => m.ChangeTurn(It.IsAny<bool>()), Times.Never());
+            canvasMock.Verify(m => m.DrawScoreLines(It.IsAny<List<GameTile>>(), It.IsAny<string>(), It.IsAny<BECanvasComponent>()), Times.Never());
         }
     }
 }

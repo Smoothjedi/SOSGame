@@ -36,4 +36,5 @@ void SetupFactories(WebApplicationBuilder builder)
     builder.Services.AddSingleton<IGameBoardFactory, GameBoardFactory>();
     builder.Services.AddSingleton<IGameLogicFactory,  GameLogicFactory>();
     builder.Services.AddSingleton<ICanvasLogic, CanvasLogic>();
+    builder.Services.AddSingleton<IGameLogger, GameLogger>();
 }

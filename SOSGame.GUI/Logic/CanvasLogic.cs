@@ -9,7 +9,7 @@ namespace SOSGame.GUI.Logic
         private int defaultLineWith = 2;
         private int scoreLineWith = 5;
 
-        public async Task DrawLettersOnCanvas(int calculatedX, int calculatedY, 
+        public async Task DrawLettersOnCanvas(Move move, 
             bool firstPlayer, GameBoard gameBoard, BECanvasComponent canvasReference)
         {
             var context = await canvasReference.CreateCanvas2DAsync();
@@ -22,8 +22,8 @@ namespace SOSGame.GUI.Logic
             {
                 await context.SetFillStyleAsync("red");
             }
-            await context.FillTextAsync(gameBoard.Tiles[calculatedX, calculatedY].Letter,
-                calculatedX * 62 + 15, calculatedY * 62 + 45);
+            await context.FillTextAsync(gameBoard.Tiles[move.X, move.Y].Letter,
+                move.X * 62 + 15, move.Y * 62 + 45);
         }
 
         public async Task DrawScoreLines(List<GameTile> score, string color, BECanvasComponent canvasReference)
