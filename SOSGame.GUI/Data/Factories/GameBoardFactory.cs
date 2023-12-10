@@ -28,4 +28,3 @@ namespace SOSGame.GUI.Data.Factories {
         }
     }
 }
-

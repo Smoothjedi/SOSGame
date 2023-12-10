@@ -1,6 +1,8 @@
-﻿using SOSGame.GUI.Logic;
+﻿using SOSGame.GUI.Data.Factories;
+using SOSGame.GUI.Logic;
 
-namespace SOSGame.GUI.Tests.Data.Factories {
+namespace SOSGame.GUI.Tests.Data.Factories
+{
     public class GameLogicFactoryTests {
         [Fact]
         public void GetGeneralGameLogic() {
@@ -17,4 +19,3 @@ namespace SOSGame.GUI.Tests.Data.Factories {
         }
     }
 }
-

@@ -41,4 +41,3 @@ namespace SOSGame.GUI.Tests.Pages {
         }
     }
 }
-

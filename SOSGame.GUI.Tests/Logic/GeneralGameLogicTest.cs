@@ -31,4 +31,3 @@ namespace SOSGame.GUI.Tests.Logic {
         }
     }
 }
-

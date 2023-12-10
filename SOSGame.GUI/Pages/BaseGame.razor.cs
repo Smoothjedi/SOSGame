@@ -6,7 +6,8 @@ using SOSGame.GUI.Logic;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
 
-namespace SOSGame.GUI.Pages {
+namespace SOSGame.GUI.Pages
+{
     public abstract partial class BaseGame {
         public ElementReference divCanvas;
         protected bool firstPlayerHuman = true;

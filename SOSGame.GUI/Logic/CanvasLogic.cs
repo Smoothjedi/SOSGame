@@ -68,4 +68,3 @@ namespace SOSGame.GUI.Logic {
         }
     }
 }
-
